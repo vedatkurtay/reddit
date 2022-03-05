@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Topic;
 use Illuminate\Http\Request;
 
 class CommunityController extends Controller
@@ -23,7 +24,9 @@ class CommunityController extends Controller
      */
     public function create()
     {
-        return view('communities.create');
+        $topics = Topic::all();
+
+        return view('communities.create', compact('topics'));
     }
 
     /**
