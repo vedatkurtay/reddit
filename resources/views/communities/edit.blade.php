@@ -8,7 +8,7 @@
                 <div class="card-header">{{ __('Edit  Community') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('communities.update', $community->id) }}">
+                    <form method="POST" action="{{ route('communities.update', $community) }}">
                         @csrf
                         @method('PUT')
 
