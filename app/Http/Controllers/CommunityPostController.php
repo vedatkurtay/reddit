@@ -39,12 +39,18 @@ class CommunityPostController extends Controller
      */
     public function store(StorePostRequest $request, Community $community)
     {
-        $community->posts()->create([
+        $post = $community->posts()->create([
             'user_id' => auth()->id(),
             'title' => $request->title,
             'post_text' => $request->post_text ?? null,
-            'post_url' => $request->post_url ?? null,
+            'post_url' => $request->post_url ?? null
         ]);
+
+        if ($request->hasFile('post_image')){
+            $image = $request->file('post_image')->getClientOriginalName();
+            $request->file('post_image')->storeAs('posts/' . $post->id, $image);
+            $post->update(['post_image' => $image]);
+        }
 
         return redirect()->route('communities.show',$community);
     }
@@ -90,6 +96,18 @@ class CommunityPostController extends Controller
 
         $post->update($request->validated());
 
+        if ($request->hasFile('post_image')){
+
+            // if post has an image, unlink first one.
+            if ($post->post_image != ''){
+                unlink(storage_path('app/posts/' . $post->id . '/' . $post->post_image));
+            }
+
+            $image = $request->file('post_image')->getClientOriginalName();
+            $request->file('post_image')->storeAs('posts/' . $post->id, $image);
+            $post->update(['post_image' => $image]);
+        }
+
         return redirect()->route('communities.posts.show', [$community,$post]);
     }
 
@@ -104,7 +122,7 @@ class CommunityPostController extends Controller
         if ($post->user_id != auth()->id()){
             abort(403);
         }
-        
+
         $post->delete();
 
         return redirect()->route('communities.show', [$community]);

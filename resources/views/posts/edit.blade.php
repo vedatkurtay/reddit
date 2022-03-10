@@ -8,7 +8,7 @@
                 <div class="card-header">Editing the <b>{{ $post->title }}</b></div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('communities.posts.update', [$community, $post]) }}">
+                    <form method="POST" action="{{ route('communities.posts.update', [$community, $post]) }}" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="row mb-3">
