@@ -7,6 +7,7 @@ use App\Http\Requests\StorePostRequest;
 use App\Models\Community;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Intervention\Image\Facades\Image;
 
 class CommunityPostController extends Controller
 {
@@ -50,6 +51,10 @@ class CommunityPostController extends Controller
             $image = $request->file('post_image')->getClientOriginalName();
             $request->file('post_image')->storeAs('posts/' . $post->id, $image);
             $post->update(['post_image' => $image]);
+
+
+            $img = Image::make(storage_path('app/posts/' . $post->id . '/' . $image))->resize(600, 400);
+            $img->save(storage_path('app/posts/' . $post->id . '/thumbnail_' . $image));
         }
 
         return redirect()->route('communities.show',$community);
@@ -101,11 +106,15 @@ class CommunityPostController extends Controller
             // if post has an image, unlink first one.
             if ($post->post_image != ''){
                 unlink(storage_path('app/posts/' . $post->id . '/' . $post->post_image));
+                unlink(storage_path('app/posts/' . $post->id . '/thumbnail_' . $post->post_image));
             }
 
             $image = $request->file('post_image')->getClientOriginalName();
             $request->file('post_image')->storeAs('posts/' . $post->id, $image);
             $post->update(['post_image' => $image]);
+
+            $img = Image::make(storage_path('app/posts/' . $post->id . '/' . $image))->resize(600, 400);
+            $img->save(storage_path('app/posts/' . $post->id . '/thumbnail_' . $image));
         }
 
         return redirect()->route('communities.posts.show', [$community,$post]);
