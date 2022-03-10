@@ -57,7 +57,7 @@ class CommunityPostController extends Controller
      */
     public function show(Community $community, Post $post)
     {
-        return view('posts.show',compact('post'));
+        return view('posts.show', compact('post','community'));
     }
 
     /**
@@ -66,9 +66,13 @@ class CommunityPostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Community $community, Post $post)
     {
-        //
+        if ($post->user_id != auth()->id()){
+            abort(403);
+        }
+
+        return view('posts.edit', compact('post','community'));
     }
 
     /**
@@ -78,9 +82,15 @@ class CommunityPostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StorePostRequest $request, Community $community, Post $post)
     {
-        //
+        if ($post->user_id != auth()->id()){
+            abort(403);
+        }
+
+        $post->update($request->validated());
+
+        return redirect()->route('communities.posts.show', [$community,$post]);
     }
 
     /**
@@ -89,8 +99,14 @@ class CommunityPostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Community $community, Post $post)
     {
-        //
+        if ($post->user_id != auth()->id()){
+            abort(403);
+        }
+        
+        $post->delete();
+
+        return redirect()->route('communities.show', [$community]);
     }
 }

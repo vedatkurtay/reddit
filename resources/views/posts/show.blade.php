@@ -13,8 +13,19 @@
                             <a href="{{ $post->post_url }}" target="_blank"> {{ $post->post_url }} </a >
                         </div>
                     @endif
-
                     {{ $post->post_text }}
+
+                    @auth()
+                        @if($post->user_id == auth()->id())
+                                <hr />
+                                <a href="{{ route('communities.posts.edit', [$community,$post])}}" class="btn btn-sm btn-primary">Edit the Post</a>
+                                <form action="{{ route('communities.posts.destroy', [$community, $post]) }}" style="display: inline-block" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-sm btn-outline-danger" type="submit" onclick="return confirm('Are you sure?')">Delete Post</button>
+                                </form>
+                            @endif
+                    @endauth
                 </div>
             </div>
         </div>
