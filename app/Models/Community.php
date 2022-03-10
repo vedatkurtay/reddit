@@ -26,6 +26,11 @@ class Community extends Model
         return $this->belongsToMany(Topic::class);
     }
 
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+
     /**
      * Get the route key for the model.
      *
