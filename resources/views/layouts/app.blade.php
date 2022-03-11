@@ -83,7 +83,38 @@
         </nav>
 
         <main class="py-4">
-            @yield('content')
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                         @yield('content')
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-header"><h3>Newest Posts</h3></div>
+                            <div class="card-body">
+                                @foreach($newestPosts as $post)
+                                    <a href="{{ route('communities.posts.show', [$post->community, $post]) }}"> <h6>{{ $post->title }}</h6></a>
+                                    <div class="mt-1">{{ $post->created_at->diffForHumans() }}</div>
+                                    <hr />
+                                @endforeach
+                            </div>
+                        </div>
+
+                        <div class="card mt-3">
+                            <div class="card-header"><h3>Newest Communities</h3></div>
+
+                            <div class="card-body">
+                                @foreach($newestCommunities as $community)
+                                    <a href="{{ route('communities.show', $community) }}"> {{ $community->name }}</a>
+                                    ({{ $community->posts_count }})
+                                    <div class="mt-1">{{ $community->created_at->diffForHumans() }}</div>
+                                    <hr />
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </main>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
