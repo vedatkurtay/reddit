@@ -142,7 +142,9 @@ class CommunityPostController extends Controller
     {
         $post = Post::with('community')->findOrFail($post_id);
 
-        if (!PostVote::where('post_id', $post_id)->where('user_id', auth()->id())->count()){
+        // We have a multiple conditions cuz of the protect our votes
+        if (!PostVote::where('post_id', $post_id)->where('user_id', auth()->id())->count()
+        && in_array($vote, [1, -1]) && $post->user_id != auth()->id() ){
             PostVote::create([
                 'post_id' => $post_id,
                 'user_id' => auth()->id(),
