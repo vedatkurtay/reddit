@@ -23,6 +23,7 @@ Route::group(['middleware' => ['auth','verified']], function (){
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::resource('communities', CommunityController::class);
     Route::resource('communities.posts', \App\Http\Controllers\CommunityPostController::class);
+    Route::get('posts/{post_id}/vote/{vote}', [\App\Http\Controllers\CommunityPostController::class, 'vote'])->name('post.vote');
 });
 
 
