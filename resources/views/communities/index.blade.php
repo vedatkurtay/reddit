@@ -29,12 +29,12 @@
                                         <a href="{{ route('communities.show', $community) }}">{{ $community->name }}</a>
                                     </td>
                                     <td>
-                                        <a href="{{ route('communities.edit', $community) }}" class="btn btn-sm btn-primary">Edit</a>
-                                        <form action="{{ route('communities.destroy', $community) }}" style="display: inline-block" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-sm btn-warning" type="submit" onclick="return confirm('Are you sure?')">Delete</button>
-                                        </form>
+                                            <a href="{{ route('communities.edit', $community) }}" class="btn btn-sm btn-primary">Edit</a>
+                                            <form action="{{ route('communities.destroy', $community) }}" style="display: inline-block" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button class="btn btn-sm btn-warning" type="submit" onclick="return confirm('Are you sure?')">Delete</button>
+                                            </form>
                                     </td>
                                 </tr>
                             @endforeach

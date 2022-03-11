@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ $post->title }}</div>
+                <div class="card-header"><h3>{{ $post->title }}</h3></div>
 
                 <div class="card-body">
                     @if($post->post_url != '')
@@ -33,6 +33,16 @@
                     @endauth
                 </div>
             </div>
+            <!-- Disqus comment area -->
+                <div class="card mt-3">
+                    <div class="card-header">
+                        <h5>Comments</h5>
+                    </div>
+                    <div class="card-body">
+                        @include('disqus-comment')
+                    </div>
+                </div>
+            <!-- End of Disqus comment area -->
         </div>
     </div>
 </div>
