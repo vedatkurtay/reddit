@@ -6,13 +6,7 @@
                 <div class="card-body">
                     @foreach($posts as $post)
                         <div class="row">
-                            <div class="col-1 text-center">
-                                <div>
-                                    <a href="{{ route('post.vote', [$post->id, 1]) }}"> <i class="fa fa-2x fa-sort-asc" aria-hidden="true"></i></a>
-                                </div>
-                                <div style="font-size: 24px; font-weight: bold">{{ $post->votes }}</div>
-                                <a href="{{ route('post.vote', [$post->id, -1]) }}"> <i class="fa fa-2x fa-sort-desc" aria-hidden="true"></i></a>
-                            </div>
+                            @livewire('post-votes', ['post' => $post])
 
                             <div class="col-11">
                                 <a href="{{ route('communities.posts.show', [$post->community, $post]) }}">

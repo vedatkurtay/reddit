@@ -10,9 +10,9 @@ class PostVotes extends Component
 {
     public $post;
 
-    public function mount($postId)
+    public function mount($post)
     {
-        $this->post = Post::find($postId);
+        $this->post = $post;
     }
 
     public function render()
@@ -22,7 +22,7 @@ class PostVotes extends Component
 
     public function vote($vote)
     {
-        if (!PostVote::where('post_id', $this->post->id)->where('user_id', auth()->id())->count()
+        if (!$this->post->postVotes->where('user_id', auth()->id())->count()
             && in_array($vote, [1, -1]) && $this->post->user_id != auth()->id()) {
             PostVote::create([
                 'post_id' => $this->post->id,

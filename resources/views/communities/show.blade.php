@@ -21,7 +21,7 @@
                    <a href="{{ route('communities.posts.create', $community) }}" class="btn btn-primary">Add Post</a> <br /> <br />
                     @forelse($posts as $post)
                         <div class="row">
-                            @livewire('post-votes', ['postId' => $post->id])
+                            @livewire('post-votes', ['post' => $post])
 
                                 <div class="col-11">
                                     <a href="{{ route('communities.posts.show', [$community,$post]) }}" >
