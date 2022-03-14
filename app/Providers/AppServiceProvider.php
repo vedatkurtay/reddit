@@ -31,5 +31,6 @@ class AppServiceProvider extends ServiceProvider
 
         View::share('newestPosts', Post::with('community')->latest()->take(5)->get());
         View::share('newestCommunities', Community::withCount('posts')->latest()->take(5)->get());
+
     }
 }

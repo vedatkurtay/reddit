@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use function Symfony\Component\Translation\t;
 
 class Post extends Model
 {
@@ -16,4 +17,16 @@ class Post extends Model
     {
         return $this->belongsTo(Community::class);
     }
+
+    public function votes()
+    {
+        return $this->hasMany(PostVote::class);
+    }
+
+    public function votesThisWeek()
+    {
+        return $this->hasMany(PostVote::class)
+            ->where('post_votes.created_at', '>=', now()->subDays(7));
+    }
+
 }
